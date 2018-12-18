@@ -1,12 +1,66 @@
 const connection = require("../config/connection.js");
 
-//Helper Function
-function printQuestionMarks(num) {
-    var arr = [];
+// The Code that manipulates the tables and data in MySQL
+// This is very time consuming so in later units Sequelizer makes this  a much faster process
 
-    for (var i = 0; i < num; i++) {
-        arr.push("?");
+
+var orm = {
+    //View all from the table
+    selectAll: function (tableInput, cb) {
+        var queryString = "Select * FROM " + tableInput + ";";
+        connection.query(queryString, function (err, result) {
+            if (err) throw err;
+            cb(result);
+        });
+    },
+    //Inserting into table
+    insertOne: function (table, cols, vals, cb) {
+        var queryString = "INSERT INTO " + table;
+
+        queryString += " (";
+        queryString += cols.toString();
+        queryString += ") ";
+        queryString += "VALUES (";
+        queryString += "'" + vals.toString() + "'";
+        queryString += ") ";
+
+        console.log(queryString);
+
+        connection.query(queryString, function (err, result) {
+            if (err) throw err;
+            cb(result);
+        });
+    },
+    //Updating table
+    updateOne: function (table, objColVals, condition, cb) {
+        var queryString = "UPDATE " + table;
+
+        queryString += " SET ";
+        queryString += objToSql(objColVals);
+        queryString += " WHERE ";
+        queryString += condition;
+
+        console.log(queryString);
+
+        connection.query(queryString, function (err, result) {
+            if (err) throw err;
+            cb(result);
+        });
+    },
+
+    deleteOne: function (table, condition, cb) {
+        var queryString = "DELETE FROM " + table;
+        queryString += " WHERE ";
+        queryString += condition;
+
+        connection.query(queryString, function (err, result) {
+            if (err) {
+                throw err;
+            }
+
+            cb(result);
+        });
     }
-
-    return arr.toString();
 }
+
+module.exports = orm;
