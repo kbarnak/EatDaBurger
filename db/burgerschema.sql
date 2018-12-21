@@ -11,4 +11,6 @@ CREATE TABLE burgers (
 );
 INSERT INTO burgers (name, devoured) 
 VALUES ("Cheeseburger", false),
-("Big Mac", true);
+("Big Mac", true),
+("Whopper", false),
+("McChicken", true);

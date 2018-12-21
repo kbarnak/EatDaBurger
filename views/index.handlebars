@@ -7,7 +7,7 @@
     {{#each burgers}}
     {{#unless devoured}}
     <li>
-        {{burger_name}}
+        {{name}}
         <button class="notdevoured" data-id="{{id}}"> To do list </button>
     </li>
     {{/unless}}
@@ -18,7 +18,7 @@
 <ul>
     {{#each burgers}} {{#if devoured}}
     <li>
-        {{burger_name}}
+        {{name}}
         <button class="yesdevoured" data-id="{{id}}">Done!</button>
     </li>
     {{/if}} {{/each}}

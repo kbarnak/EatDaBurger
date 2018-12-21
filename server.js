@@ -1,31 +1,29 @@
-//Dependencies
-const config = require("dotenv").config();
+var express = require("express");
 
-const express = require("express");
-const app = express();
-// const exphbs = require('express-handlebars');
-const bodyParser = require("body-parser");
+var PORT = process.env.PORT || 8080;
 
-//Use Handlebars
-const exphbs = require("express-handlebars");
-const hbs = exphbs.create({ /* config */ });
+var app = express();
+
+// Serve static content for the app from the "public" directory in the application directory.
+app.use(express.static("public"));
+
+// Parse application body as JSON
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+// Set Handlebars.
+var exphbs = require("express-handlebars");
+
+app.engine("handlebars", exphbs({ defaultLayout: "main" }));
+app.set("view engine", "handlebars");
 
 // Import routes and give the server access to them.
-const routes = require("./controllers/burgers_controller.js");
-app.use("/", routes);
+var routes = require("./controllers/burgers_controller.js");
 
-const PORT = process.env.PORT || 8889;
+app.use(routes);
 
-// Register `hbs.engine` with the Express app.
-app.engine('handlebars', hbs.engine);
-app.set('view engine', 'handlebars');
-
-//Tell app to use bodyParser
-app.use(bodyParser.json());
-
-//Uses public as a shortcut directory
-app.use(express.static(__dirname + '/public'));
-
+// Start our server so that it can begin listening to client requests.
 app.listen(PORT, function () {
-    console.log("App listening on PORT: " + PORT);
+    // Log (server-side) when our server has started
+    console.log("Server listening on: http://localhost:" + PORT);
 });

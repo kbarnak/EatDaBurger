@@ -1,13 +1,14 @@
 const connection = require("../config/connection.js");
+// require("dotenv").config();
 
 // The Code that manipulates the tables and data in MySQL
 // This is very time consuming so in later units Sequelizer makes this  a much faster process
 
 
-var orm = {
+const orm = {
     //View all from the table
     selectAll: function (tableInput, cb) {
-        var queryString = "Select * FROM " + tableInput + ";";
+        const queryString = "Select * FROM " + tableInput + ";";
         connection.query(queryString, function (err, result) {
             if (err) throw err;
             cb(result);
@@ -15,7 +16,7 @@ var orm = {
     },
     //Inserting into table
     insertOne: function (table, cols, vals, cb) {
-        var queryString = "INSERT INTO " + table;
+        const queryString = "INSERT INTO " + table;
 
         queryString += " (";
         queryString += cols.toString();
@@ -33,7 +34,7 @@ var orm = {
     },
     //Updating table
     updateOne: function (table, objColVals, condition, cb) {
-        var queryString = "UPDATE " + table;
+        const queryString = "UPDATE " + table;
 
         queryString += " SET ";
         queryString += objToSql(objColVals);
@@ -49,7 +50,7 @@ var orm = {
     },
 
     deleteOne: function (table, condition, cb) {
-        var queryString = "DELETE FROM " + table;
+        const queryString = "DELETE FROM " + table;
         queryString += " WHERE ";
         queryString += condition;
 
